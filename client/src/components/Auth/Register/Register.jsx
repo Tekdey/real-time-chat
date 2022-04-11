@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios"
-import { registerRoute } from "../utils/APIRoutes";
+import { registerRoute } from "../../../utils/APIRoutes";
+import "../Auth.css"
  
 
 
@@ -31,7 +32,7 @@ const Auth = () => {
 
       useEffect(() => {
         if (localStorage.getItem("auth-user")) {
-          navigate("/");
+          navigate("/room");
         }
       }, [navigate]);
 
@@ -89,7 +90,7 @@ const Auth = () => {
             }
             if(data.status === true){
                 localStorage.setItem("auth-user", JSON.stringify(data.user))
-                navigate('/')
+                navigate('/room')
             }
         }
     }
