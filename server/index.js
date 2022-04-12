@@ -49,30 +49,61 @@ io.on("connection", (socket) => {
   //User join the room
   socket.on("user__join", ({ name, room }) => {
     socket.name = name;
-
-    socket.emit("admin__general-message", { text: `Welcome ${name}` });
-    socket.broadcast.emit("admin__general-message", {
-      text: `${name} joined the room`,
+    const { user } = addUser({
+      id: socket.id,
+      name,
+      room,
     });
 
-    // todo
+    // Admin messages
+    socket.emit("admin__general-message", { text: `Welcome ${user.name}` });
+    socket.broadcast.emit("admin__general-message", {
+      text: `${user.name} joined the room`,
+    });
+
+    // Room Data
+
+    socket.broadcast.emit("room__data", {
+      room: user.room,
+      users: getUserInRoom(user.room),
+    });
+    socket.emit("room__data", {
+      room: user.room,
+      users: getUserInRoom(user.room),
+    });
   });
   // Messages
 
   socket.on("sendMessage", (message) => {
-    console.log(message); // here
-    socket.emit("user__message", { message, name: socket.name });
-    socket.broadcast.emit("user__message", { message, name: socket.name });
-
-    // todo
+    const user = getUser(socket.id);
+    socket.emit("user__message", { message, name: user.name });
+    socket.broadcast.emit("user__message", { message, name: user.name });
   });
 
   socket.on("disconnect", () => {
     console.log("❌");
     //User left the room
-    socket.broadcast.emit("admin__general-message", {
-      text: `${socket.name} left the room`,
-    });
+
+    const user = removeUser(socket.id);
+
+    if (user) {
+      // Msg left
+      socket.broadcast.emit("admin__general-message", {
+        text: `${user.name} left the room`,
+      });
+      socket.emit("admin__general-message", {
+        text: `${user.name} left the room`,
+      });
+      // User in room
+      socket.emit("room__data", {
+        room: user.room,
+        users: getUserInRoom(user.room),
+      });
+      socket.broadcast.emit("room__data", {
+        room: user.room,
+        users: getUserInRoom(user.room),
+      });
+    }
   });
 });
 

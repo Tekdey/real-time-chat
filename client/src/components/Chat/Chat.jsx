@@ -6,9 +6,7 @@ let socket;
 
 const Chat = () => {
 
-    const [usersInRoom, setUsersInRoom] = useState([
-      'Bot'
-    ])
+    const [usersInRoom, setUsersInRoom] = useState([])
     const [inputUserMessage, setInputUserMessage] = useState('')
     const [messages, setMessages] = useState([])
     const END_POINT = 'localhost:5000'
@@ -28,25 +26,28 @@ const Chat = () => {
         }
     }, [END_POINT, window.location.search])
 
-
       /*////////////////// MESSAGES ///////////////////*/ 
 
     useEffect(() => {
 
+      socket.on('room__data', ({users}) => {
+        setUsersInRoom(users)
+      })
+
+
+      
       // User joined
       socket.on('admin__general-message', ({text}) => {
         setMessages(messages => [...messages, text])
+      }, () => {
+        
       }) 
 
       socket.on('user__message', ({message, name}) => {
         setMessages((messages) => [...messages, `${name} a dit : ${message}`])
       })
      
-     
-
-     
     }, [])
-    
     const sendMessage = (event) => {
       event.preventDefault()
 
@@ -55,24 +56,30 @@ const Chat = () => {
         setInputUserMessage('')
       }
 
-    }
+    } 
 
   return (
     <div className="outerContainer">
     <div className="container">
-      {
-        usersInRoom.map((users, i)=> {
-          return (
-            <p key={i}>{users}</p>
-          )
-        })
-      }
+      <div className="usersInRoom__container">
+      {/*////////////////// USERS IN ROOM ///////////////////*/ }
+          {
+            usersInRoom.map((data, i) => {
+              return (
+                <p key={i}>
+                  {data.name}
+                </p>
+              )
+
+            })
+          }
+      </div>
         <input 
         onChange={(event) => setInputUserMessage(event.target.value)} 
         onKeyPress={(event) => event.key === 'Enter' ? sendMessage(event) : null}
         value={inputUserMessage}
         />
-
+  {/*////////////////// MESSAGES ///////////////////*/ }
       {
           messages.map((msg, i)=> {
             return (

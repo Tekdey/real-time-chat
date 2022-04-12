@@ -55,8 +55,6 @@ const Auth = () => {
             return false
         }
         if(password !== confirmPassword){
-            console.log(password);
-            console.log(confirmPassword);
             toast.error("password isn't the same", toastOptions);
             return false
         }
