@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from "react";
 import io from "socket.io-client"
 import queryString from 'query-string'
+import Input from "./Input/Input"
+import UserList from "./UserList/UserList"
+import Messages from "./Messages/Messages"
+import "./Chat.css"
 
 let socket;
 
 const Chat = () => {
 
     const [usersInRoom, setUsersInRoom] = useState([])
-    const [inputUserMessage, setInputUserMessage] = useState('')
     const [messages, setMessages] = useState([])
     const END_POINT = 'localhost:5000'
 
@@ -30,63 +33,42 @@ const Chat = () => {
 
     useEffect(() => {
 
+      // Room data
       socket.on('room__data', ({users}) => {
         setUsersInRoom(users)
       })
 
-
       
-      // User joined
-      socket.on('admin__general-message', ({text}) => {
-        setMessages(messages => [...messages, text])
-      }, () => {
-        
+      // User joined ADMIN
+      socket.on('admin__general-message', (content) => {
+        console.log(content);
+        setMessages(messages => [...messages, content])
       }) 
 
-      socket.on('user__message', ({message, name}) => {
-        setMessages((messages) => [...messages, `${name} a dit : ${message}`])
+      // User messages
+      socket.on('user__message', (content) => {
+        console.log(content);
+        setMessages((messages) => [...messages, content])
       })
      
     }, [])
-    const sendMessage = (event) => {
-      event.preventDefault()
+
+    console.log(messages);
+    const sendMessage = (e, inputUserMessage) => {
+      e.preventDefault()
 
       if(inputUserMessage){
         socket.emit('sendMessage', inputUserMessage)
-        setInputUserMessage('')
       }
 
     } 
 
   return (
-    <div className="outerContainer">
-    <div className="container">
-      <div className="usersInRoom__container">
-      {/*////////////////// USERS IN ROOM ///////////////////*/ }
-          {
-            usersInRoom.map((data, i) => {
-              return (
-                <p key={i}>
-                  {data.name}
-                </p>
-              )
-
-            })
-          }
-      </div>
-        <input 
-        onChange={(event) => setInputUserMessage(event.target.value)} 
-        onKeyPress={(event) => event.key === 'Enter' ? sendMessage(event) : null}
-        value={inputUserMessage}
-        />
-  {/*////////////////// MESSAGES ///////////////////*/ }
-      {
-          messages.map((msg, i)=> {
-            return (
-              <p key={i}>{msg}</p>
-            )
-          })
-      }
+    <div className="chat__outer-container">
+    <div className="chat__container">
+        <UserList users={usersInRoom} />
+        <Input messageInput={sendMessage} />
+        <Messages messages={messages} />
     </div>
   </div>
   );

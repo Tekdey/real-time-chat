@@ -58,9 +58,13 @@ io.on("connection", (socket) => {
     socket.join(user.room);
 
     // Admin messages
-    socket.emit("admin__general-message", { text: `Welcome ${user.name}` });
+    socket.emit("admin__general-message", {
+      text: `Welcome ${user.name}`,
+      users: "admin",
+    });
     socket.to(user.room).emit("admin__general-message", {
       text: `${user.name} joined the room`,
+      users: "admin",
     });
 
     // Room Data
@@ -76,15 +80,15 @@ io.on("connection", (socket) => {
   });
   // Messages
 
-  socket.on("sendMessage", (message) => {
+  socket.on("sendMessage", (text) => {
     const user = getUser(socket.id);
-    socket.emit("user__message", { message, name: user.name });
-    socket.to(user.room).emit("user__message", { message, name: user.name });
+    socket.emit("user__message", { text, name: user.name });
+    socket.to(user.room).emit("user__message", { text, name: user.name });
   });
 
   socket.on("disconnect", () => {
     console.log("❌");
-    //User left the room
+    // User left the room
 
     const user = removeUser(socket.id);
 

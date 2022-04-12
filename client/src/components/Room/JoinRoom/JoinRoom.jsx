@@ -35,7 +35,6 @@ const Join =  () => {
       const {data} = await axios.post(joinRoomRoute, {
         roomId,
       })
-      console.log(data);
       if(data.status === false){
         toast.error(data.msg, toastOptions);
       }
@@ -80,7 +79,6 @@ const Join =  () => {
       })
     }
   }, [])
-  console.log(values);
 
   return  ( 
   <>
