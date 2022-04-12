@@ -2,7 +2,7 @@
    /*
    *
    */
-   background-color: aliceblue;
+   background-color: rgb(52, 89, 121);
 }
 .room__join-container h1{
     text-align: center;
@@ -18,7 +18,7 @@
     background-color: #333;
     width: 200px;
     height: 30px;
-    margin: 20px 0 0 0;
+    margin: 20px;
 }
 .room__join-form-input__button{
     padding: 20px;

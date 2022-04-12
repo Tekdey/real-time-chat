@@ -8,14 +8,16 @@ import "./Room.css"
 
 
 const Join = () => {
-  
+
+    // Todo
+
   return  ( 
   <>
-  <div className="room_container">
-    <CreateRoom />
-    <JoinRoom />
-  </div>
-   </>
+    <div className="room_container">
+      <CreateRoom />
+      <JoinRoom />
+    </div>
+  </>
 )
 };
 

@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 
 module.exports.register = async (req, res, next) => {
   try {
@@ -14,7 +13,6 @@ module.exports.register = async (req, res, next) => {
       return res.json({ msg: "Email already used", status: false });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const roomId = crypto.randomBytes(16).toString("hex");
     const user = await User.create({
       email,
       username,
@@ -23,10 +21,10 @@ module.exports.register = async (req, res, next) => {
     delete user.password;
     return res.json({
       status: true,
-      user: { username: username, roomId: roomId },
+      user: { username: username },
     });
-  } catch (ex) {
-    next(ex);
+  } catch (er) {
+    next(er);
   }
 };
 
@@ -39,15 +37,14 @@ module.exports.login = async (req, res, next) => {
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.json({ msg: "Incorect username or password", status: false });
+      return res.json({ msg: "Incorect password", status: false });
     }
-    const roomId = crypto.randomBytes(16).toString("hex");
     delete user.password;
     return res.json({
       status: true,
-      user: { username: username, roomId: roomId },
+      user: { username: username },
     });
-  } catch (ex) {
-    next(ex);
+  } catch (er) {
+    next(er);
   }
 };

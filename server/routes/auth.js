@@ -1,10 +1,13 @@
-const { register } = require("../controllers/auth");
-const { login } = require("../controllers/auth");
+const { register, login } = require("../controllers/auth");
+const { createRoom, joinRoom } = require("../controllers/room");
 
 const router = require("express").Router();
 /*////////////////// AUTHENTIFICATIONS ///////////////////*/
-router.post("/register", register);
-router.post("/login", login);
+router.post("/auth/register", register);
+router.post("/auth/login", login);
+/*////////////////// ROOMS ///////////////////*/
+router.post("/room/create", createRoom);
+router.post("/room/join", joinRoom);
 /*////////////////// SOCKETIO ///////////////////*/
 router.get("/", (req, res) => {
   res.send("Chat");

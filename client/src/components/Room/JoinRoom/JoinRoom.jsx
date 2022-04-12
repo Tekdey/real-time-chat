@@ -3,15 +3,16 @@ import {useNavigate} from "react-router-dom"
 import "./JoinRoom.css"
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import {joinRoomRoute} from "../../../utils/APIRoutes"
+import axios from "axios";
 
 
 const INITIAL_STATE = {
   username: '' ,
-  room: '',
   roomId: ''
 }
 
-const Join = () => {
+const Join =  () => {
   const navigate = useNavigate()
     
     const [values, setValues] = useState(INITIAL_STATE)
@@ -24,24 +25,46 @@ const Join = () => {
       theme: "dark",
     };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!values.room){
-      toast.error('Room cannot be empty', toastOptions)
-    }else if(values.room.length < 3) {
-      toast.error('Room name is 3 characters minimum', toastOptions)
-    }
-    else if(values.room.length > 20) {
-      toast.error('Room name is 20 characters maximum', toastOptions)
-    }else if(values.username === '' || values.username === undefined){
-      setValues({...values, username: 'Default' + Math.floor(Math.random() * 1000) })
-    }
-    else{
-      navigate(`/chat?roomId=${values.roomId}&room=${values.room}`);
+    if(handleValidation()){
+
+      const {roomId} = values
+
+      const {data} = await axios.post(joinRoomRoute, {
+        roomId,
+      })
+      console.log(data);
+      if(data.status === false){
+        toast.error(data.msg, toastOptions);
+      }
+     if(data.status === true){
+        navigate(`/chat?roomId=${data.roomId}`);
+      }
     }
 
+    
   }
+
+  const handleValidation = () => {
+    if(!values.roomId){
+      toast.error('Room cannot be empty', toastOptions)
+      return false
+    }
+    if(values.roomId.length > 100) {
+      toast.error('Room name is 100 characters maximum', toastOptions)
+      return false
+    }
+    if(values.username === '' || values.username === undefined){
+      setValues({...values, username: 'Default' + Math.floor(Math.random() * 1000) })
+      return false
+    }
+    return true
+  }
+    // else{
+    //   navigate(`/chat?roomId=${values.roomId}&room=${values.room}`);
+    // }
   const handleChange = (e) => {
     setValues({...values,
       [e.target.name]: e.target.value
@@ -59,8 +82,7 @@ const Join = () => {
         roomId: userLocalStorage.roomId
       })
     }
-  }, [INITIAL_STATE])
-
+  }, [navigate, values])
 
   return  ( 
   <>
@@ -71,8 +93,8 @@ const Join = () => {
     >
       <h3>{values.username}</h3>
       <input type="text" 
-      placeholder="Room" 
-      name="room"
+      placeholder="Room ID" 
+      name="roomId"
       className="room__join-form-input__room"
       onChange={handleChange}
       />

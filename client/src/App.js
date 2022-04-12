@@ -5,11 +5,13 @@ import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 import Chat from "./components/Chat/Chat";
 import Room from "./components/Room/Room";
+import Redirect from "./components/Redirect";
 
 const App = () => {
   return (
     <>
       <Routes>
+        <Route path="/" element={<Redirect />} />
         <Route path="/room" element={<Room />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/login" element={<Login />} />

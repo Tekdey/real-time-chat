@@ -84,7 +84,6 @@ const Auth = () => {
                 email, 
                 password
             })
-            console.log(data);
             if(data.status === false){
                 toast.error(data.msg, toastOptions);
             }
