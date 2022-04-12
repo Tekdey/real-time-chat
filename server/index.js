@@ -37,46 +37,42 @@ const {
 } = require("./usersHelper.js");
 
 const http = require("http");
-
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
   cors: {
     origin: "*",
   },
 });
-
+// Connection
 io.on("connection", (socket) => {
-  socket.on("join", ({ name, room }, callback) => {
-    const { error, user } = addUser({
-      id: socket.id,
-      name,
-      room,
+  console.log("✅");
+  //User join the room
+  socket.on("user__join", ({ name, room }) => {
+    socket.name = name;
+
+    socket.emit("admin__general-message", { text: `Welcome ${name}` });
+    socket.broadcast.emit("admin__general-message", {
+      text: `${name} joined the room`,
     });
-    if (error) return callback(error);
 
-    socket.emit("message", {
-      user: "admin",
-      text: `${user.name}, welcome to the room ${user.room} `,
-    });
-    socket.broadcast
-      .to(user.room)
-      .emit("message", { user: "admin", text: `${user.name}, has joined` });
-
-    socket.join(user.room);
-
-    callback();
+    // todo
   });
+  // Messages
 
-  socket.on("sendMessage", (message, callback) => {
-    const user = getUser(socket.id);
+  socket.on("sendMessage", (message) => {
+    console.log(message); // here
+    socket.emit("user__message", { message, name: socket.name });
+    socket.broadcast.emit("user__message", { message, name: socket.name });
 
-    io.to(user.room).emit("message", { user: user.name, text: message });
-
-    callback();
+    // todo
   });
 
   socket.on("disconnect", () => {
     console.log("❌");
+    //User left the room
+    socket.broadcast.emit("admin__general-message", {
+      text: `${socket.name} left the room`,
+    });
   });
 });
 

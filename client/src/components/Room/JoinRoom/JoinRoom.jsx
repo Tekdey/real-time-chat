@@ -40,7 +40,7 @@ const Join =  () => {
         toast.error(data.msg, toastOptions);
       }
      if(data.status === true){
-        navigate(`/chat?roomId=${data.roomId}`);
+        navigate(`/chat?roomId=${data.room.roomId}`);
       }
     }
 
@@ -62,15 +62,12 @@ const Join =  () => {
     }
     return true
   }
-    // else{
-    //   navigate(`/chat?roomId=${values.roomId}&room=${values.room}`);
-    // }
   const handleChange = (e) => {
     setValues({...values,
       [e.target.name]: e.target.value
   })
-  } 
-
+  }   
+  
   useEffect(() => {
 
     if(!localStorage.getItem("auth-user")){
@@ -82,7 +79,8 @@ const Join =  () => {
         roomId: userLocalStorage.roomId
       })
     }
-  }, [navigate, values])
+  }, [])
+  console.log(values);
 
   return  ( 
   <>

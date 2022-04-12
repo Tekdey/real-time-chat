@@ -76,7 +76,7 @@ const Join = () => {
         roomId: userLocalStorage.roomId
       })
     }
-  }, [navigate, values])
+  }, [])
 
 
   return  ( 
