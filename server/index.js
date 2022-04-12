@@ -55,15 +55,17 @@ io.on("connection", (socket) => {
       room,
     });
 
+    socket.join(user.room);
+
     // Admin messages
     socket.emit("admin__general-message", { text: `Welcome ${user.name}` });
-    socket.broadcast.emit("admin__general-message", {
+    socket.to(user.room).emit("admin__general-message", {
       text: `${user.name} joined the room`,
     });
 
     // Room Data
 
-    socket.broadcast.emit("room__data", {
+    socket.to(user.room).emit("room__data", {
       room: user.room,
       users: getUserInRoom(user.room),
     });
@@ -77,7 +79,7 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (message) => {
     const user = getUser(socket.id);
     socket.emit("user__message", { message, name: user.name });
-    socket.broadcast.emit("user__message", { message, name: user.name });
+    socket.to(user.room).emit("user__message", { message, name: user.name });
   });
 
   socket.on("disconnect", () => {
@@ -88,7 +90,7 @@ io.on("connection", (socket) => {
 
     if (user) {
       // Msg left
-      socket.broadcast.emit("admin__general-message", {
+      socket.to(user.room).emit("admin__general-message", {
         text: `${user.name} left the room`,
       });
       socket.emit("admin__general-message", {
@@ -99,7 +101,7 @@ io.on("connection", (socket) => {
         room: user.room,
         users: getUserInRoom(user.room),
       });
-      socket.broadcast.emit("room__data", {
+      socket.to(user.room).emit("room__data", {
         room: user.room,
         users: getUserInRoom(user.room),
       });
