@@ -5,6 +5,7 @@ import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios"
 import {createRoomRoute} from "../../../utils/APIRoutes"
+import {useDispatch} from "react-redux"
 
 
 const INITIAL_STATE = {
@@ -13,6 +14,7 @@ const INITIAL_STATE = {
 }
 
 const Join = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
     
     const [values, setValues] = useState(INITIAL_STATE)
@@ -28,13 +30,16 @@ const Join = () => {
     e.preventDefault();
 
     if(handleValidation()){
-      console.log('verified room');
       const {roomName} = values
       
       const {data} =  await axios.post(createRoomRoute, {
           roomName, 
       })
-      navigate(`/chat?roomId=${data.room._id}`);
+        dispatch({
+          type: 'NEW__ROOM',
+          payload: data.room.roomId
+        })
+        navigate(`/chat/${data.room.roomId}`)
     }
     
   }
@@ -66,16 +71,11 @@ const Join = () => {
   } 
 
   useEffect(() => {
-
-    if(!localStorage.getItem("auth-user")){
-      navigate('/login')
-    }else{
       const userLocalStorage = JSON.parse(localStorage.getItem("auth-user"))
       setValues({...values, 
         username: userLocalStorage.username, 
         roomId: userLocalStorage.roomId
       })
-    }
   }, [])
 
 

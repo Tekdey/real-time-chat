@@ -1,40 +1,47 @@
 import React, {useState, useEffect} from "react";
 import io from "socket.io-client"
-import queryString from 'query-string'
 import Input from "./Input/Input"
 import UserList from "./UserList/UserList"
 import Messages from "./Messages/Messages"
 import "./Chat.css"
+import {useLocation} from "react-router-dom"
 
 let socket;
 
 const Chat = () => {
 
+    const location = useLocation()
+
     const [usersInRoom, setUsersInRoom] = useState([])
     const [messages, setMessages] = useState([])
     const END_POINT = 'localhost:5000'
 
-    const {roomId} = queryString.parse(window.location.search);
+    const roomId = location.pathname.replace('/chat/', '')
     const userName = JSON.parse(localStorage.getItem('auth-user'))
-
     /*////////////////// JOIN AND DISCONNECT ///////////////////*/ 
     
+
     useEffect(() => {
       socket = io(END_POINT)  
-      socket.emit('user__join', {room: roomId, name: userName.username})
+        socket.emit('user__join', {room: roomId, name: userName.username}, (error) => {
+            console.log(error);
+        })
+     
         return () => {
           socket.emit('disconnect');
 
           socket.off()
         }
-    }, [END_POINT, window.location.search])
+       
+    }, [END_POINT, location])
 
       /*////////////////// MESSAGES ///////////////////*/ 
 
     useEffect(() => {
 
       // Room data
-      socket.on('room__data', ({users}) => {
+      socket.on('room__data', ({room, users}) => {
+        // Todo add chat name
         setUsersInRoom(users)
       })
 
@@ -50,7 +57,6 @@ const Chat = () => {
       })
      
     }, [])
-
     const sendMessage = (e, inputUserMessage) => {
       e.preventDefault()
 
@@ -59,7 +65,6 @@ const Chat = () => {
       }
 
     } 
-
   return (
     <div className="chat__outer-container">
     <div className="chat__inset-container">

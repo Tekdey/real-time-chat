@@ -5,9 +5,7 @@ import ReactEmoji from "react-emoji"
 const Message = ({message}) => {
 
     const localName = JSON.parse(localStorage.getItem('auth-user'))
-    console.log(message.users === true);
-    console.log(message.text);
-    
+
 
   return (
     <div 
@@ -25,17 +23,14 @@ const Message = ({message}) => {
         <div className="container__message-user">
           {
             message.users !== "admin" ? (
-              
               <div 
               className="container__message-user_info"
               style={{
                 flexDirection:  localName.username === message.users ? 'row-reverse' : 'reverse'
               }}
               >
-                
                 <div className="container__message-user_picture">
                 </div>
-                
                 <div 
                 className={
                   message.users === localName.username ? 'container__message-user_name-message_sender' : 
@@ -47,23 +42,20 @@ const Message = ({message}) => {
                 }}
                 >
                   
-                  <div className="container__message-user_name"
-                    style={{
-                      justifyContent: message.users === localName.username ? "flex-end" : "flex-start"
-                    }}
-                  >
-                    {message.users === localName.username ? 'You' : message.users}
-                  </div>
-
                   <div className="container__message-user_text">
                     {ReactEmoji.emojify(message.text)}
                   </div>
-
                 </div>
-                
-
+                <div className="container__message-user_date-name">
+                {
+                  message.users === localName.username ?(
+                    `${message.date} ${message.users}`
+                  ):(
+                    `${message.users} ${message.date}`
+                  )
+                }
+                </div>
               </div>
-              
             ) : 
             (
                 <div className="container__message-user_name-message">
@@ -73,9 +65,7 @@ const Message = ({message}) => {
                 </div>
             )
           }
-          
         </div>
-        
     </div>
   )
 };

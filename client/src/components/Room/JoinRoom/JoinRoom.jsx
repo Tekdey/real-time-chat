@@ -39,7 +39,7 @@ const Join =  () => {
         toast.error(data.msg, toastOptions);
       }
      if(data.status === true){
-        navigate(`/chat?roomId=${data.room.roomId}`);
+        navigate(`/chat/${data.room.roomId}`);
       }
     }
 
@@ -68,16 +68,12 @@ const Join =  () => {
   }   
   
   useEffect(() => {
-
-    if(!localStorage.getItem("auth-user")){
-      navigate('/login')
-    }else{
+    
       const userLocalStorage = JSON.parse(localStorage.getItem("auth-user"))
       setValues({...values, 
         username: userLocalStorage.username, 
         roomId: userLocalStorage.roomId
       })
-    }
   }, [])
 
   return  ( 

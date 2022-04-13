@@ -9,6 +9,7 @@ module.exports.createRoom = async (req, res, next) => {
       name: roomName,
       roomId,
     });
+    console.log(room);
     return res.json({
       status: true,
       room,
@@ -31,6 +32,24 @@ module.exports.joinRoom = async (req, res, next) => {
     return res.json({
       status: true,
       room,
+    });
+  } catch (er) {
+    next(er);
+  }
+};
+module.exports.allRoom = async (req, res, next) => {
+  try {
+    const allRoom = await Room.find();
+
+    let rooms = [];
+
+    allRoom.map((room) => {
+      rooms.push(room.roomId);
+    });
+
+    return res.json({
+      status: true,
+      rooms: rooms,
     });
   } catch (er) {
     next(er);

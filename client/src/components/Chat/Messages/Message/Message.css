@@ -47,19 +47,11 @@
     flex-wrap: wrap;
     overflow: hidden;
     
-    
-
 }
 .container__message-user_text{
-    height: 100%;
-
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
-
-    
-    /* background: yellow; */
-
 }
 .container__message-user_name-message_all-user{
     max-width: 500px;
@@ -84,4 +76,10 @@
     min-width: 100px;
     height: 100%;  
     padding: 10px;
+}
+.container__message-user_date-name{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin:  0 5px 0 5px;
 }

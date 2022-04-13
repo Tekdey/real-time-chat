@@ -3,8 +3,6 @@ import "./UserList.css"
 
 const UserList = ({users}) => {
 
-    
-
 
   return <div className="userlist__container">
     <h4>Users in current room</h4>

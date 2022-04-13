@@ -6,7 +6,8 @@ const express = require("express");
 require("dotenv").config();
 const PORT = process.env.PORT;
 
-const router = require("./routes/auth");
+const routerAuth = require("./routes/auth");
+const routerRoom = require("./routes/room");
 
 const app = express();
 
@@ -22,11 +23,16 @@ mongoose
 /*////////////////// ROUTES ///////////////////*/
 
 const authRoutes = require("./routes/auth.js");
+const roomRoutes = require("./routes/room.js");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use("/auth", authRoutes);
+app.use("/room", roomRoutes);
+
+app.use(routerAuth);
+app.use(routerRoom);
 
 /*////////////////// SOCKETIO  ///////////////////*/
 const {
@@ -47,14 +53,15 @@ const io = require("socket.io")(server, {
 io.on("connection", (socket) => {
   console.log("✅");
   //User join the room
-  socket.on("user__join", ({ name, room }) => {
+  socket.on("user__join", ({ name, room }, callback) => {
     socket.name = name;
-    const { user } = addUser({
+    const { error, user } = addUser({
       id: socket.id,
       name,
       room,
     });
-
+    if (error) return callback(error);
+    console.log(user);
     socket.join(user.room);
 
     // Admin messages
@@ -68,7 +75,6 @@ io.on("connection", (socket) => {
     });
 
     // Room Data
-
     socket.to(user.room).emit("room__data", {
       room: user.room,
       users: getUserInRoom(user.room),
@@ -79,23 +85,19 @@ io.on("connection", (socket) => {
     });
   });
   // Messages
-
   socket.on("sendMessage", (text) => {
     const currentLocalTime = new Date();
-
     const user = getUser(socket.id);
     socket.emit("user__message", {
       text,
       users: user.name,
       date: currentLocalTime.toLocaleTimeString(),
     });
-    socket
-      .to(user.room)
-      .emit("user__message", {
-        text,
-        users: user.name,
-        date: currentLocalTime.toLocaleTimeString(),
-      });
+    socket.to(user.room).emit("user__message", {
+      text,
+      users: user.name,
+      date: currentLocalTime.toLocaleTimeString(),
+    });
   });
 
   socket.on("disconnect", () => {
@@ -126,8 +128,6 @@ io.on("connection", (socket) => {
     }
   });
 });
-
-app.use(router);
 
 /*////////////////// SERVER ///////////////////*/
 
