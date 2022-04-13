@@ -81,9 +81,21 @@ io.on("connection", (socket) => {
   // Messages
 
   socket.on("sendMessage", (text) => {
+    const currentLocalTime = new Date();
+
     const user = getUser(socket.id);
-    socket.emit("user__message", { text, name: user.name });
-    socket.to(user.room).emit("user__message", { text, name: user.name });
+    socket.emit("user__message", {
+      text,
+      users: user.name,
+      date: currentLocalTime.toLocaleTimeString(),
+    });
+    socket
+      .to(user.room)
+      .emit("user__message", {
+        text,
+        users: user.name,
+        date: currentLocalTime.toLocaleTimeString(),
+      });
   });
 
   socket.on("disconnect", () => {
@@ -96,9 +108,11 @@ io.on("connection", (socket) => {
       // Msg left
       socket.to(user.room).emit("admin__general-message", {
         text: `${user.name} left the room`,
+        users: "admin",
       });
       socket.emit("admin__general-message", {
         text: `${user.name} left the room`,
+        users: "admin",
       });
       // User in room
       socket.emit("room__data", {

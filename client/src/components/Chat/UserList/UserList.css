@@ -1,0 +1,25 @@
+.userlist__container {
+    background-color: #272838;
+    box-shadow: 0 0 10px black;
+
+    width: 200px;
+    height: 100%;
+}
+.userlist__container h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #15151a;
+    height: 30px;
+}
+.userlist__container ul {
+    height: 94%;
+    overflow-y: scroll;
+
+}
+.userlist__container ul li{
+    margin-top: 1px;
+}
+.userlist__container ul li:hover{
+    background: #2f3142;
+}

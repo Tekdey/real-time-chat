@@ -6,7 +6,8 @@ const Input = ({messageInput}) => {
     const [inputUserMessage, setInputUserMessage] = useState('')
 
   return <div className="chat-input__container">
-      <input 
+    <form onSubmit={(e) => e.preventDefault()}>
+    <input 
         onChange={(e) => setInputUserMessage(e.target.value)} 
         onKeyPress={
                     (e) => e.key === 'Enter' ? 
@@ -16,6 +17,7 @@ const Input = ({messageInput}) => {
                     }
         value={inputUserMessage}
         />
+    </form>
   </div>
 };
 

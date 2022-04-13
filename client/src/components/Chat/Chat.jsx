@@ -41,19 +41,16 @@ const Chat = () => {
       
       // User joined ADMIN
       socket.on('admin__general-message', (content) => {
-        console.log(content);
-        setMessages(messages => [...messages, content])
+        setMessages((messages) => [...messages, content])
       }) 
 
       // User messages
       socket.on('user__message', (content) => {
-        console.log(content);
         setMessages((messages) => [...messages, content])
       })
      
     }, [])
 
-    console.log(messages);
     const sendMessage = (e, inputUserMessage) => {
       e.preventDefault()
 
@@ -65,10 +62,20 @@ const Chat = () => {
 
   return (
     <div className="chat__outer-container">
-    <div className="chat__container">
-        <UserList users={usersInRoom} />
-        <Input messageInput={sendMessage} />
-        <Messages messages={messages} />
+    <div className="chat__inset-container">
+        <div className="chat__container">
+            <div className="chat__container-user__list">
+              <UserList users={usersInRoom} />
+            </div>
+            <div className="chat__container-main__container">
+                <div className="chat__container-messages">
+                    <Messages messages={messages} />
+                </div>
+                <div className="chat__container-messages__input">
+                    <Input messageInput={sendMessage} />
+                </div>
+            </div>
+        </div>
     </div>
   </div>
   );

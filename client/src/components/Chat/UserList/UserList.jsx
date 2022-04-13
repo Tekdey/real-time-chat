@@ -7,6 +7,7 @@ const UserList = ({users}) => {
 
 
   return <div className="userlist__container">
+    <h4>Users in current room</h4>
       <ul>
         {
             users.map((data, i) => {
@@ -18,6 +19,37 @@ const UserList = ({users}) => {
 
             })
           }
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
+          <li>User</li>
       </ul>
   </div>
 };
