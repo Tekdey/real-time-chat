@@ -11,6 +11,8 @@ import { getAllRoomRoute } from "./utils/APIRoutes";
 import Error from "./Error";
 import { useSelector } from "react-redux";
 import RoutesProtection from "./utils/RoutesProtection";
+import Home from "./components/Home/Home";
+import Content from "./components/Home/Content/Content";
 
 const App = () => {
   const [room, setRoom] = useState([]);
@@ -26,17 +28,24 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route element={<RoutesProtection />}>
-          <Route path="/" element={<Redirect />} />
-          <Route path="/room" element={<Room />} />
-          <Route path="/chat" element={<Redirect />} />
-          <Route path="*" element={<Error />} />
+        <Route path="/" element={<Home />}>
+          {/*////////////////// Sign ///////////////////*/}
+          <Route path="/" element={<Content />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/*////////////////// Protected Routes ///////////////////*/}
+          <Route element={<RoutesProtection />}>
+            <Route path="/room" element={<Room />} />
+            <Route path="/chat" element={<Redirect />} />
+            <Route path="*" element={<Error />} />
 
-          {room.map((route, i) => {
-            return <Route key={i} path={`/chat/${route}`} element={<Chat />} />;
-          })}
+            {room.map((route, i) => {
+              return (
+                <Route key={i} path={`/chat/${route}`} element={<Chat />} />
+              );
+            })}
+          </Route>
+          {/*///////////////////////////////////////////////////////*/}
         </Route>
       </Routes>
     </>

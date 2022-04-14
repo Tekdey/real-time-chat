@@ -13,8 +13,11 @@ const Join = () => {
 
   return  ( 
   <>
-    <div className="room_container">
+    <div className="room__container">
       <CreateRoom />
+      <div className="room__container-title">Room</div>
+      <div className="room__container-fence_horizontal"></div>
+      <div className="room__container-fence_vertical"></div>
       <JoinRoom />
     </div>
   </>

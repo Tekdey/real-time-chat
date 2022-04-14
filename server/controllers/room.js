@@ -55,3 +55,17 @@ module.exports.allRoom = async (req, res, next) => {
     next(er);
   }
 };
+module.exports.getRoomName = async (req, res, next) => {
+  try {
+    const { currentRoomId } = req.body;
+    const { name } = await Room.findOne({
+      roomId: currentRoomId,
+    });
+    return res.json({
+      status: true,
+      currentRoomName: name,
+    });
+  } catch (er) {
+    next(er);
+  }
+};

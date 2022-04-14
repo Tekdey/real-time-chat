@@ -17,37 +17,6 @@ const UserList = ({users}) => {
 
             })
           }
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
-          <li>User</li>
       </ul>
   </div>
 };

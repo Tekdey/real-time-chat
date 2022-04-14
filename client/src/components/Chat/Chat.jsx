@@ -5,6 +5,8 @@ import UserList from "./UserList/UserList"
 import Messages from "./Messages/Messages"
 import "./Chat.css"
 import {useLocation} from "react-router-dom"
+import axios from "axios";
+import {getRoomNameRoute} from "../../utils/APIRoutes"
 
 let socket;
 
@@ -12,12 +14,26 @@ const Chat = () => {
 
     const location = useLocation()
 
+    const [currentRoomName, setCurrentRoomName] = useState('')
     const [usersInRoom, setUsersInRoom] = useState([])
     const [messages, setMessages] = useState([])
     const END_POINT = 'localhost:5000'
 
     const roomId = location.pathname.replace('/chat/', '')
     const userName = JSON.parse(localStorage.getItem('auth-user'))
+    
+    /*////////////////// Get room name ///////////////////*/ 
+    useEffect(() => {
+      async function getRoomName(roomId){
+        const {data} = await axios.post(getRoomNameRoute, {
+           currentRoomId: roomId,
+        })
+        setCurrentRoomName(data.currentRoomName);
+      }
+      getRoomName(roomId)
+    })
+    
+    
     /*////////////////// JOIN AND DISCONNECT ///////////////////*/ 
     
 
@@ -66,23 +82,28 @@ const Chat = () => {
 
     } 
   return (
-    <div className="chat__outer-container">
-    <div className="chat__inset-container">
-        <div className="chat__container">
-            <div className="chat__container-user__list">
-              <UserList users={usersInRoom} />
-            </div>
-            <div className="chat__container-main__container">
-                <div className="chat__container-messages">
-                    <Messages messages={messages} />
+    <>
+   
+      <div className="chat__outer-container">
+      <h1>{currentRoomName}</h1>
+        <div className="chat__inset-container">
+            <div className="chat__container">
+                <div className="chat__container-user__list">
+                  <UserList users={usersInRoom} />
                 </div>
-                <div className="chat__container-messages__input">
-                    <Input messageInput={sendMessage} />
+                <div className="chat__container-main__container">
+                    <div className="chat__container-messages">
+                        <Messages messages={messages} />
+                    </div>
+                    <div className="chat__container-messages__input">
+                        <Input messageInput={sendMessage} />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-  </div>
+      </div>
+    </>
+    
   );
 };
 

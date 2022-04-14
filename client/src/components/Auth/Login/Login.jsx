@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios"
 import { loginRoute } from "../../../utils/APIRoutes";
-import "../Auth.css"
+import "./Login.css"
  
 const INITIAL_STATE = {
     username: '',
@@ -28,7 +28,7 @@ const Auth = () => {
 
       useEffect(() => {
         if (localStorage.getItem("auth-user")) {
-          navigate("/room");
+          navigate("/");
         }
       }, [navigate]);
 
@@ -73,7 +73,8 @@ const Auth = () => {
             }
             if(data.status === true){
                 localStorage.setItem("auth-user", JSON.stringify(data.user))
-                navigate('/room')
+                navigate('/')
+                window.location.reload()
             }
         }
     }
@@ -88,11 +89,11 @@ const Auth = () => {
 
 
   return (
-        <div className="auth__form-container">
+        <div className="auth__form_login-container">
             <form onSubmit={handleSubmit}>
-            <h1>Login</h1>
+            <h1>L😆gin</h1>
 
-                <div className="auth__form-container_fields">
+                <div className="auth__form_login-container_fields">
                     <label htmlFor="username">Username</label>
                         <input type="text" 
                         name="username" 
@@ -100,7 +101,7 @@ const Auth = () => {
                         onChange={handleChange} 
                         required />
                 </div>
-                <div className="auth__form-container_fields">
+                <div className="auth__form_login-container_fields">
                     <label htmlFor="password">Password</label>
                     <input type="password" 
                     name="password" 
@@ -108,14 +109,14 @@ const Auth = () => {
                     onChange={handleChange} 
                     required />
                 </div>
-                <div className="auth__form-container_fields-content_button">
+                <div className="auth__form_login-container_fields-content_button">
                     <button>
                         Login
                     </button>
                     
                     
                 </div>
-                <div className="auth__form-container_fields-content_sign">
+                <div className="auth__form_login-container_fields-content_sign">
                 <p>
                     'You don\'t have a account ? 
                     <span>

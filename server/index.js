@@ -61,7 +61,6 @@ io.on("connection", (socket) => {
       room,
     });
     if (error) return callback(error);
-    console.log(user);
     socket.join(user.room);
 
     // Admin messages

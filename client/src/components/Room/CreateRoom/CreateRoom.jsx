@@ -18,7 +18,7 @@ const Join = () => {
   const navigate = useNavigate()
     
     const [values, setValues] = useState(INITIAL_STATE)
-
+    
     const toastOptions = {
       position: "bottom-right",
       autoClose: 8000,
@@ -82,18 +82,20 @@ const Join = () => {
   return  ( 
   <>
   <div className="room__create-container">
-    <h1>Create</h1>
     <form
     onSubmit={handleSubmit}
     >
+      <h1>Create</h1>
       <h3>{values.username}</h3>
-      <input type="text" 
-      placeholder="Room Name" 
-      name="roomName"
-      className="room__create-form-input__room"
-      onChange={handleChange}
-      />
+      <div className="room__create-container-input_button">
+        <input type="text" 
+        placeholder="Room Name" 
+        name="roomName"
+        className="room__create-form-input__room"
+        onChange={handleChange}
+        />
       <button className="room__create-form-input__button">Create</button>
+      </div>
     </form>
   </div>
   <ToastContainer />

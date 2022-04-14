@@ -1,0 +1,66 @@
+.navbar__container{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    color: #f3f3f38a;
+}
+.navbar__container a {
+    text-decoration: none;
+    color: #f3f3f38a;
+}
+.navbar__container a:hover {
+    color: #f3f3f3;
+}
+.navbar__container-items{
+    height: 100%;
+    
+    display: flex;
+    align-items: center;
+}
+.navbar__container .item{
+    margin: 10px 20px;
+    font-size: 1.5em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navbar__container-items .item{
+    /*
+    *
+    */
+}
+.navbar__container .item:hover{
+    color: #f3f3f3;
+    cursor: pointer;
+}
+.navbar__container-account_settings{
+    display: flex;
+}
+.navbar__container-account_settings .sign-btn{
+    border-radius: 20px;
+    border: 1px solid #f3f3f38a;
+    padding: 5px 12px 5px 12px;
+    box-shadow: 0 0 10px black;
+}
+.navbar__container-account_settings .sign-btn:hover{
+    border: 1px solid #f3f3f3;
+    color: #f3f3f3;
+    cursor: pointer;
+}
+.settings-btn{
+    height: 50px;
+    width: 50px;
+    color: #f3f3f388;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.settings-btn:hover{
+    color: white
+
+}

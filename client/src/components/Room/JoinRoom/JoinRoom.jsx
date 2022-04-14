@@ -79,18 +79,20 @@ const Join =  () => {
   return  ( 
   <>
    <div className="room__join-container">
-    <h1>Join</h1>
     <form
     onSubmit={handleSubmit}
     >
+      <h1>Join</h1>
       <h3>{values.username}</h3>
-      <input type="text" 
-      placeholder="Room ID" 
-      name="roomId"
-      className="room__join-form-input__room"
-      onChange={handleChange}
-      />
-      <button className="room__join-form-input__button">Join</button>
+    <div className="room__join-container-input_button">
+        <input type="text" 
+        placeholder="Room ID" 
+        name="roomId"
+        className="room__join-form-input__room"
+        onChange={handleChange}
+        />
+        <button className="room__join-form-input__button">Join</button>
+      </div>
     </form>
   </div>
   <ToastContainer />
