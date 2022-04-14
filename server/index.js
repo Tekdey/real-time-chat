@@ -99,11 +99,16 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (reason) => {
     console.log("❌");
-    // User left the room
-
     const user = removeUser(socket.id);
+    // Error callback for user
+    if (reason === "transport close") {
+      socket.to(user.room).emit("transport__close-error", {
+        error: `${user.name} had a connection issue`,
+      });
+    }
+    // User left the room
 
     if (user) {
       // Msg left

@@ -7,17 +7,25 @@ import "./Chat.css"
 import {useLocation} from "react-router-dom"
 import axios from "axios";
 import {getRoomNameRoute} from "../../utils/APIRoutes"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import {END_POINT} from "../../utils/APIRoutes"
 
 let socket;
 
 const Chat = () => {
-
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
     const location = useLocation()
 
     const [currentRoomName, setCurrentRoomName] = useState('')
     const [usersInRoom, setUsersInRoom] = useState([])
     const [messages, setMessages] = useState([])
-    const END_POINT = 'localhost:5000'
 
     const roomId = location.pathname.replace('/chat/', '')
     const userName = JSON.parse(localStorage.getItem('auth-user'))
@@ -44,7 +52,7 @@ const Chat = () => {
         })
      
         return () => {
-          socket.emit('disconnect');
+          socket.disconnect()
 
           socket.off()
         }
@@ -81,6 +89,15 @@ const Chat = () => {
       }
 
     } 
+
+    /*////////////////// Errors ///////////////////*/ 
+
+    useEffect(() => {
+      socket.on("transport__close-error", ({error}) => {
+        toast.error(error, toastOptions)
+      } )
+    }, [])
+
   return (
     <>
    
@@ -102,6 +119,7 @@ const Chat = () => {
             </div>
         </div>
       </div>
+        <ToastContainer />
     </>
     
   );

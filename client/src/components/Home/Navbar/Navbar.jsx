@@ -24,7 +24,7 @@ const Navbar = () => {
           </a>
         </div>
         <div className="item">
-          <a href="https://github.com/Tekdey" target="_blank">
+          <a href="https://github.com/Tekdey/real-time-chat" target="_blank">
             Github
           </a>
         </div>
