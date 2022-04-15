@@ -30,17 +30,24 @@ const Settings =  () => {
 
   const [form, setForm] = useState(INITIAL_STATE)
   const [changePassword, setChangePassword] = useState(false)
-
+  console.log(changePassword);
   const handleValidation = () => {
-    const {password, confirmPassword, newPassword} = form
 
-    if(password !== confirmPassword){
-      toast.error('Your password isn\'t identic', toastOptions)
-      return false
-    }
-    if(password === newPassword){
-      toast.error('You already have this password !', toastOptions)
-      return false
+    if(changePassword){
+      const {password, confirmPassword, newPassword} = form
+
+      if(password !== confirmPassword){
+        toast.error('Your password isn\'t identic', toastOptions)
+        return false
+      }
+      if(password === newPassword){
+        toast.error('Your new password needs to be different than the current !', toastOptions)
+        return false
+      }
+      if(password.length < 5){
+        toast.error("Password needs minimum 5 characters", toastOptions);
+        return false
+      }
     }
     return true
   }
