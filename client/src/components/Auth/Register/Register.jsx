@@ -16,12 +16,13 @@ const INITIAL_STATE = {
 }
 
 
-const Auth = () => {
+const Register = () => {
 
     const navigate = useNavigate()
 
     const [formData, setFormData] = useState(INITIAL_STATE)
-    
+
+
     const toastOptions = {
         position: "bottom-right",
         autoClose: 8000,
@@ -80,13 +81,14 @@ const Auth = () => {
             const { data } = await axios.post(registerRoute, {
                 username, 
                 email, 
-                password
+                password,
             })
+            console.log(data);
             if(data.status === false){
                 toast.error(data.msg, toastOptions);
             }
             if(data.status === true){
-                localStorage.setItem("auth-user", JSON.stringify(data.user))
+                localStorage.setItem("auth-user", JSON.stringify({username: username, email: email}))
                 navigate('/')
                 window.location.reload()
             }
@@ -162,4 +164,4 @@ const Auth = () => {
   )
 };
 
-export default Auth;
+export default Register;

@@ -12,7 +12,7 @@ const INITIAL_STATE = {
 }
 
 
-const Auth = () => {
+const Login = () => {
 
     const navigate = useNavigate()
 
@@ -72,7 +72,7 @@ const Auth = () => {
                 toast.error(data.msg, toastOptions);
             }
             if(data.status === true){
-                localStorage.setItem("auth-user", JSON.stringify(data.user))
+                localStorage.setItem("auth-user", JSON.stringify({username: data.user.username, email: data.user.email}))
                 navigate('/')
                 window.location.reload()
             }
@@ -132,4 +132,4 @@ const Auth = () => {
   )
 };
 
-export default Auth;
+export default Login;

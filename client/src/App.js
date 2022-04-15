@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import RoutesProtection from "./utils/RoutesProtection";
 import Home from "./components/Home/Home";
 import Content from "./components/Home/Content/Content";
+import Settings from "./components/Settings/Settings";
 
 const App = () => {
   const [room, setRoom] = useState([]);
@@ -37,6 +38,7 @@ const App = () => {
           <Route element={<RoutesProtection />}>
             <Route path="/room" element={<Room />} />
             <Route path="/chat" element={<Redirect />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<Error />} />
 
             {room.map((route, i) => {

@@ -8,7 +8,6 @@ const Navbar = () => {
     localStorage.removeItem('auth-user')
     window.location.reload()
   }
-
   return (
   <div className="navbar__container">
     <div className="navbar__container-items">
@@ -44,7 +43,7 @@ const Navbar = () => {
         </div>
       </>
       ): (
-        
+        <>
         <div 
         className="item sign-btn"
           onClick={handleClick}
@@ -53,9 +52,16 @@ const Navbar = () => {
             Disconnect
           </Link>
         </div>
+        <div 
+        className="item settings-btn"
+        >
+          <Link to="/settings">
+            ⚙
+          </Link>
+        </div>
+        </>
       )}
       
-      <div className="item settings-btn">⚙</div>
     </div>
   </div>
   )
