@@ -77,3 +77,30 @@ module.exports.deleteAccount = async (req, res, next) => {
     next(er);
   }
 };
+module.exports.updatePassword = async (req, res, next) => {
+  try {
+    const { password, newPassword, local_data } = req.body;
+
+    const user = await User.findOne({ local_data });
+    if (!user) {
+      return res.json({ status: false, msg: "Error, please try later" });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.json({ status: false, msg: "Your password is incorrect" });
+    }
+    delete user.password;
+    if (isPasswordValid) {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await User.findOneAndUpdate(local_data, {
+        password: hashedPassword,
+      });
+    }
+    return res.json({
+      status: true,
+      msg: "Your password has been updated",
+    });
+  } catch (er) {
+    next(er);
+  }
+};

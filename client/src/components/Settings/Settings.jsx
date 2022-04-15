@@ -3,7 +3,7 @@ import "./Settings.css"
 import { Link, useNavigate } from "react-router-dom";
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
-import {updateAccountRoute} from "../../utils/APIRoutes"
+import {updateAccountRoute, updatePasswordRoute} from "../../utils/APIRoutes"
 import axios from "axios"
 
 
@@ -14,9 +14,8 @@ const INITIAL_STATE = {
   email: "",
   password: "",
   confirmPassword: "",
+  newPassword: ""
 }
-
-
 
 const Settings =  () => {
 
@@ -32,18 +31,50 @@ const Settings =  () => {
   const [form, setForm] = useState(INITIAL_STATE)
   const [changePassword, setChangePassword] = useState(false)
 
-
   const handleValidation = () => {
+    const {password, confirmPassword, newPassword} = form
+
+    if(password !== confirmPassword){
+      toast.error('Your password isn\'t identic', toastOptions)
+      return false
+    }
+    if(password === newPassword){
+      toast.error('You already have this password !', toastOptions)
+      return false
+    }
     return true
   }
 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-  
-      if(handleValidation()){
+    
+    const local_data = JSON.parse(localStorage.getItem('auth-user'))
+
+    if(handleValidation()){
+
+      if(changePassword){
+        // Change password
+
+        const { password, newPassword } = form
+        const {data} = await axios.post(updatePasswordRoute, {
+          password,
+          newPassword,
+          local_data
+        })
+
+        if(data.status === false){
+          toast.error(data.msg, toastOptions)
+        }
+        if(data.status === true){
+          toast.error(data.msg, toastOptions)
+          setChangePassword(false)
+        }
+      }
+      if(!changePassword){
+        // Change info user
+
         const {username, email, password} = form
-        const local_data = JSON.parse(localStorage.getItem('auth-user'))
           const {data} = await axios.post(updateAccountRoute, {
             username, email, password, local_data
           })
@@ -62,6 +93,7 @@ const Settings =  () => {
             toast.error("Informations updated", toastOptions);
           }
       }
+    }
   }
  
   
@@ -109,18 +141,26 @@ const Settings =  () => {
         </>):(<>
         
         <div className="auth__form_settings-container_fields">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Current password</label>
             <input type="password" 
             name="password" 
-            placeholder="Password" 
+            placeholder="Current Password" 
             onChange={handleChange} 
             required />
         </div>
         <div className="auth__form_settings-container_fields">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">Confirm your current password</label>
             <input type="password" 
             name="confirmPassword" 
-            placeholder="Confirm Password" 
+            placeholder="Confirm your current password" 
+            onChange={handleChange} 
+            required />
+        </div>
+        <div className="auth__form_settings-container_fields">
+            <label htmlFor="newPassword">New password</label>
+            <input type="password" 
+            name="newPassword" 
+            placeholder="New Password" 
             onChange={handleChange} 
             required />
         </div>

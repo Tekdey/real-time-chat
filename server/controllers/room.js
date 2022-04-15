@@ -9,7 +9,6 @@ module.exports.createRoom = async (req, res, next) => {
       name: roomName,
       roomId,
     });
-    console.log(room);
     return res.json({
       status: true,
       room,

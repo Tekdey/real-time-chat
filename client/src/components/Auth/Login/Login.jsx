@@ -17,7 +17,6 @@ const Login = () => {
     const navigate = useNavigate()
 
     const [formData, setFormData] = useState(INITIAL_STATE)
-    
     const toastOptions = {
         position: "bottom-right",
         autoClose: 8000,
@@ -60,8 +59,6 @@ const Login = () => {
         /*////////////////// DATA ///////////////////*/ 
 
         if(handleValidation()){
-            console.log("verified");
-
             const {username,  password} = formData
 
             const { data } = await axios.post(loginRoute, {

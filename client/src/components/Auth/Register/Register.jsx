@@ -74,8 +74,6 @@ const Register = () => {
         /*////////////////// DATA ///////////////////*/ 
 
         if(handleValidation()){
-            console.log("verified");
-
             const {username, email, password} = formData
 
             const { data } = await axios.post(registerRoute, {
@@ -83,7 +81,6 @@ const Register = () => {
                 email, 
                 password,
             })
-            console.log(data);
             if(data.status === false){
                 toast.error(data.msg, toastOptions);
             }
