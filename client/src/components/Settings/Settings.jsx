@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./Settings.css"
 import { Link, useNavigate } from "react-router-dom";
 import {ToastContainer, toast} from "react-toastify"
-import {updateRoomRoute} from "../../utils/APIRoutes"
+import 'react-toastify/dist/ReactToastify.css'
+import {updateAccountRoute} from "../../utils/APIRoutes"
 import axios from "axios"
 
 
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
 
 const Settings =  () => {
 
+
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -28,6 +30,8 @@ const Settings =  () => {
   };
 
   const [form, setForm] = useState(INITIAL_STATE)
+  const [changePassword, setChangePassword] = useState(false)
+
 
   const handleValidation = () => {
     return true
@@ -40,7 +44,7 @@ const Settings =  () => {
       if(handleValidation()){
         const {username, email, password} = form
         const local_data = JSON.parse(localStorage.getItem('auth-user'))
-          const {data} = await axios.post(updateRoomRoute, {
+          const {data} = await axios.post(updateAccountRoute, {
             username, email, password, local_data
           })
           if(data.status === false) {
@@ -60,8 +64,6 @@ const Settings =  () => {
       }
   }
  
-    
-
   
 
 
@@ -70,28 +72,43 @@ const Settings =  () => {
   }
 
   return (
-    <div className="auth__form_register-container">
+    <div className="auth__form_settings-container">
     <form onSubmit={handleSubmit}>
     <h1>Settings 🔧</h1>
+    {changePassword && (
+      <span 
+      className="auth__form_settings-span_back"
+      onClick={() => setChangePassword((_) => !_)}
+      > 	&larr; Go back back</span>
+    )}
 
-        <div className="auth__form_register-container_fields">
+    {!changePassword ? (<>
+        <div className="auth__form_settings-container_fields">
             <label htmlFor="username">Username</label>
                 <input type="text" 
                 name="username" 
                 placeholder={local_values.username}
                 onChange={handleChange} 
                 required />
-        </div>
+          </div>
 
-        <div className="auth__form_register-container_fields">
+        <div className="auth__form_settings-container_fields">
             <label htmlFor="email">Email</label>
             <input type="email" 
             name="email" 
             placeholder={local_values.email} 
             onChange={handleChange} 
             required />
-        </div>
-        <div className="auth__form_register-container_fields">
+        </div> 
+        <button 
+          className="auth__form_settings-button_password"
+          onClick={() => setChangePassword((_) => !_)}>
+          Change password
+         </button>
+
+        </>):(<>
+        
+        <div className="auth__form_settings-container_fields">
             <label htmlFor="password">Password</label>
             <input type="password" 
             name="password" 
@@ -99,7 +116,7 @@ const Settings =  () => {
             onChange={handleChange} 
             required />
         </div>
-        <div className="auth__form_register-container_fields">
+        <div className="auth__form_settings-container_fields">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input type="password" 
             name="confirmPassword" 
@@ -107,22 +124,22 @@ const Settings =  () => {
             onChange={handleChange} 
             required />
         </div>
-        <div className="auth__form_register-container_fields-content_button">
+        </> )}
+       
+        <div className="auth__form_settings-container_fields-content_button">
             <button>
-                Register
+                Update
             </button>
-            
-            
         </div>
-        <div className="auth__form_register-container_fields-content_sign">
+        <div className="auth__form_settings-container_fields-content_sign">
         <p>
-            Already have an account ?
+            Want to delete your account ?
             <span>
-                <Link to="/login">
-                 &nbsp;Login&nbsp; 
-                </Link>
+              <Link to="/account/delete">
+                 &nbsp;Delete&nbsp; 
+               </Link>
             </span>
-            </p>
+         </p>
         </div>
     </form>
     <ToastContainer />

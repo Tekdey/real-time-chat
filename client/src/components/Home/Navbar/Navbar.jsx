@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './Navbar.css'
 import {Link} from "react-router-dom"
 
@@ -55,7 +55,7 @@ const Navbar = () => {
         <div 
         className="item settings-btn"
         >
-          <Link to="/settings">
+          <Link to="/account">
             ⚙
           </Link>
         </div>

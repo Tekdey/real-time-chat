@@ -1,0 +1,75 @@
+.delete__account-container{
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    box-shadow: 0 0 10px black;
+}
+.delete__account-span{
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+}
+.delete__container-confirmation{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+.delete__container-confirmation button{
+    border: 1px solid black;
+    height: 50px;
+    width: 100px;
+    margin: 20px;
+    cursor: pointer;
+}
+.delete__container-confirmation .YES{
+   background-color: green;
+   color: white;
+}
+.delete__container-confirmation .NO{
+    background-color: rgb(228, 36, 36);
+    color: white;
+ }
+ .delete__account-container-span_back{
+    align-self: flex-start;
+    margin: 0 0 10px 0;
+ }
+ .delete__account-container-span_back a{
+    cursor: pointer;
+    color: white
+ }
+ .delete__container-confirmation .YES{
+    background-color: green;
+    color: white;
+ }
+ .delete__container-confirmation .NO{
+     background-color: rgb(228, 36, 36);
+     color: white;
+  }
+  .delete__container-confirmation .NO a{
+      text-decoration: none;
+     color: white;
+  }
+  .delete__container-confirmation-input_confirm_password-Container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0 0 0;
+  }
+  .delete__container-confirmation-input_confirm_password{
+    height: 30px;
+    width: 300px;
+    text-align: center;
+    font-size: 1em;
+    border-radius: 30px;
+  }
+  .delete__container-confirmation-input_confirm_password-btn{
+    background-color: rgb(228, 36, 36);
+    color: white;
+    border-radius: 20px;
+  }

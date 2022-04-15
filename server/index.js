@@ -8,6 +8,7 @@ const PORT = process.env.PORT;
 
 const routerAuth = require("./routes/auth");
 const routerRoom = require("./routes/room");
+const routerAccount = require("./routes/account");
 
 const app = express();
 
@@ -24,15 +25,18 @@ mongoose
 
 const authRoutes = require("./routes/auth.js");
 const roomRoutes = require("./routes/room.js");
+const accountRoutes = require("./routes/account.js");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use("/auth", authRoutes);
 app.use("/room", roomRoutes);
+app.use("/account", accountRoutes);
 
 app.use(routerAuth);
 app.use(routerRoom);
+app.use(routerAccount);
 
 /*////////////////// SOCKETIO  ///////////////////*/
 const {
