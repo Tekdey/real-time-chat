@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import "./JoinRoom.css"
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
-import {joinRoomRoute} from "../../../utils/APIRoutes"
+import {joinRoomRoute} from "../../../api/api.path"
 import axios from "axios";
 
 

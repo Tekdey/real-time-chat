@@ -6,10 +6,9 @@ import Messages from "./Messages/Messages"
 import "./Chat.css"
 import {useLocation} from "react-router-dom"
 import axios from "axios";
-import {getRoomNameRoute} from "../../utils/APIRoutes"
+import {getRoomNameRoute, END_POINT} from "../../api/api.path"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {END_POINT} from "../../utils/APIRoutes"
 
 let socket;
 

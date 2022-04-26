@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios"
-import { loginRoute } from "../../../utils/APIRoutes";
+import { loginRoute } from "../../../api/api.path";
 import "./Login.css"
  
 const INITIAL_STATE = {

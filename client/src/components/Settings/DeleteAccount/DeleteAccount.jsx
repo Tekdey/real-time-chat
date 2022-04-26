@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./DeleteAccount.css"
-import {deleteAccountRoute} from "../../../utils/APIRoutes"
+import {deleteAccountRoute} from "../../../api/api.path"
 import axios from 'axios'
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'

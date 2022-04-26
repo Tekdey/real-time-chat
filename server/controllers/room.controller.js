@@ -1,4 +1,4 @@
-const Room = require("../models/Room");
+const Room = require("../models/room.model");
 const crypto = require("crypto");
 
 module.exports.createRoom = async (req, res, next) => {

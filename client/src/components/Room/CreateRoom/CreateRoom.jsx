@@ -4,7 +4,7 @@ import "./CreateRoom.css"
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios"
-import {createRoomRoute} from "../../../utils/APIRoutes"
+import {createRoomRoute} from "../../../api/api.path"
 import {useDispatch} from "react-redux"
 
 
