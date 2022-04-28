@@ -1,6 +1,9 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
-const { generateAccessToken } = require("../helper/jwt.helper");
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../helper/jwt.helper");
 
 module.exports.register = async (req, res) => {
   try {
@@ -16,15 +19,17 @@ module.exports.register = async (req, res) => {
       return res.status(401).json({ msg: "Email already used", status: false });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    await User.create({
       email,
       username,
       password: hashedPassword,
     });
-    delete user.password;
+
+    const token = generateAccessToken({ username });
+
     return res.status(200).json({
       status: true,
-      user: { username: username },
+      token,
     });
   } catch (er) {
     return res.status(500).json({ msg: "error please try later", error });
@@ -49,11 +54,13 @@ module.exports.login = async (req, res) => {
     delete user.password;
 
     const token = generateAccessToken({ username });
+    const refreshToken = generateRefreshToken({ username });
 
     console.log(token);
     return res.status(200).json({
       status: true,
       token,
+      refreshToken,
     });
   } catch (error) {
     console.log(error);

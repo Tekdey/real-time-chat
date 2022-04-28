@@ -5,7 +5,6 @@ const generateAccessToken = (user) => {
     expiresIn: "1m",
   });
 };
-
 const verifyAccessToken = (token, req, next) => {
   jwt.verify(token, process.env.JWT_TOKEN_ACCESS_PRIVATE_KEY, (error, user) => {
     if (error) {
@@ -16,4 +15,14 @@ const verifyAccessToken = (token, req, next) => {
   });
 };
 
-module.exports = { generateAccessToken, verifyAccessToken };
+const generateRefreshToken = (user) => {
+  return jwt.sign(user, process.env.JWT_REFRESH_TOKEN_ACCESS_PRIVATE_KEY, {
+    expiresIn: "5m",
+  });
+};
+
+module.exports = {
+  generateAccessToken,
+  verifyAccessToken,
+  generateRefreshToken,
+};
