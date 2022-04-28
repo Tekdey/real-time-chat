@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth", route.auth);
 app.use("/room", route.room);
 app.use("/account", route.account);
+app.use("/token", route.token);
 
 socketIO(io);
 connectDB(server);
