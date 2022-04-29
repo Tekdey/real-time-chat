@@ -1,12 +1,13 @@
-import React, {  useState } from "react";
-import { Link } from "react-router-dom";
+import React, {  useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import {updateAccountRoute, updatePasswordRoute} from "../api/api.path"
 import axios from "axios"
+import jwt_decode from "jwt-decode"
 
 
-const local_values = JSON.parse(localStorage.getItem('auth-user'))
+
 
 const INITIAL_STATE = {
   username: '',
@@ -15,17 +16,33 @@ const INITIAL_STATE = {
   confirmPassword: "",
   newPassword: ""
 }
+const toastOptions = {
+  position: "bottom-right",
+  autoClose: 8000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "dark",
+};
 
 const Settings =  () => {
 
+    const navigate = useNavigate()
 
-  const toastOptions = {
-    position: "bottom-right",
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
+  useEffect(() => {
+
+    const local = JSON.parse(localStorage.getItem('token'))
+
+    if(local){
+      const decodedToken = jwt_decode(local.token)
+      const currentDate = new Date()
+  
+      if (decodedToken.exp * 1000 < currentDate.getTime()){
+        navigate('/')
+      }
+    }
+  }, [navigate])
+  const local = JSON.parse(localStorage.getItem('token'))
+  const decodedToken = jwt_decode(local.token)
 
   const [form, setForm] = useState(INITIAL_STATE)
   const [changePassword, setChangePassword] = useState(false)
@@ -55,8 +72,6 @@ const Settings =  () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    const local_data = JSON.parse(localStorage.getItem('auth-user'))
-
     if(handleValidation()){
 
       if(changePassword){
@@ -66,7 +81,7 @@ const Settings =  () => {
         const {data} = await axios.post(updatePasswordRoute, {
           password,
           newPassword,
-          local_data
+          decodedToken
         })
 
         if(data.status === false){
@@ -82,7 +97,7 @@ const Settings =  () => {
 
         const {username, email, password} = form
           const {data} = await axios.post(updateAccountRoute, {
-            username, email, password, local_data
+            username, email, password, decodedToken
           })
           if(data.status === false) {
             localStorage.setItem('auth-user', JSON.stringify({
@@ -126,7 +141,7 @@ const Settings =  () => {
                 <input type="text" 
                 className="setting-input"
                 name="username" 
-                placeholder={local_values.username}
+                placeholder={decodedToken.username}
                 onChange={handleChange} 
                 required />
           </div>
@@ -137,7 +152,7 @@ const Settings =  () => {
             <input type="email" 
             className="setting-input"
             name="email" 
-            placeholder={local_values.email} 
+            placeholder={decodedToken.email} 
             onChange={handleChange} 
             required />
           </div>

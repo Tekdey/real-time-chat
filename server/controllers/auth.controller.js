@@ -26,7 +26,10 @@ module.exports.signup = async (req, res) => {
     });
     console.log(user);
 
-    const token = generateAccessToken({ username });
+    const token = generateAccessToken({
+      username: user.username,
+      email: user.email,
+    });
 
     return res.status(200).json({
       status: true,
@@ -55,8 +58,14 @@ module.exports.login = async (req, res) => {
     }
     delete user.password;
 
-    const token = generateAccessToken({ username });
-    const refreshToken = generateRefreshToken({ username });
+    const token = generateAccessToken({
+      username: user.username,
+      email: user.email,
+    });
+    const refreshToken = generateRefreshToken({
+      username: user.username,
+      email: user.email,
+    });
 
     console.log(token);
     return res.status(200).json({
