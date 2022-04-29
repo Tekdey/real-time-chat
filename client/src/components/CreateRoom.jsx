@@ -1,31 +1,31 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom"
-import "./CreateRoom.css"
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios"
-import {createRoomRoute} from "../../../api/api.path"
+import {createRoomRoute} from "../api/api.path"
 import {useDispatch} from "react-redux"
-
+import jwt_decode from "jwt-decode"
 
 const INITIAL_STATE = {
   username: '' ,
   roomName: '',
 }
 
-const Join = () => {
+const toastOptions = {
+  position: "bottom-right",
+  autoClose: 8000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "dark",
+};
+
+const Create = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
     
     const [values, setValues] = useState(INITIAL_STATE)
     
-    const toastOptions = {
-      position: "bottom-right",
-      autoClose: 8000,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-    };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,36 +71,36 @@ const Join = () => {
   } 
 
   useEffect(() => {
-      const userLocalStorage = JSON.parse(localStorage.getItem("auth-user"))
+      const local = JSON.parse(localStorage.getItem("token"))
+      const decodedToken = jwt_decode(local.token)
       setValues({...values, 
-        username: userLocalStorage.username, 
-        roomId: userLocalStorage.roomId
+        username: decodedToken.username, 
+        // roomId: decodedToken.roomId
       })
+      console.log(decodedToken);
   }, [])
 
+  console.log(values);
 
   return  ( 
   <>
-  <div className="room__create-container">
     <form
     onSubmit={handleSubmit}
+    className="flex justify-center items-center flex-col bg-orange-400 rounded-lg p-3 mx-8"
     >
-      <h1>Create</h1>
-      <h3>{values.username}</h3>
-      <div className="room__create-container-input_button">
+      <h1 className="text-white text-xl my-2">Create</h1>
+      <h3 className="text-black text-md">{values.username}</h3>
         <input type="text" 
         placeholder="Room Name" 
         name="roomName"
-        className="room__create-form-input__room"
+        className="setting-input"
         onChange={handleChange}
         />
-      <button className="room__create-form-input__button">Create</button>
-      </div>
+      <button className="bg-orange-900 p-3 rounded-lg text-white my-3">Create</button>
     </form>
-  </div>
   <ToastContainer />
  </>
 )
 };
 
-export default Join;
+export default Create;

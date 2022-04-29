@@ -1,7 +1,10 @@
 const host = "http://localhost:5000";
 // Auth
-export const registerRoute = `${host}/auth/register`;
+export const signupRoute = `${host}/auth/signup`;
 export const loginRoute = `${host}/auth/login`;
+// Token
+export const tokenRoute = `${host}/token`;
+export const accessRoute = `${host}/token/access`;
 // Account
 export const updatePasswordRoute = `${host}/account/update/password`;
 export const updateAccountRoute = `${host}/account/update`;

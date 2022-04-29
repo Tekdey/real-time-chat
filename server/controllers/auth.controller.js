@@ -5,7 +5,7 @@ const {
   generateRefreshToken,
 } = require("../helper/jwt.helper");
 
-module.exports.register = async (req, res) => {
+module.exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const usernameCheck = await User.findOne({ username });
@@ -19,11 +19,12 @@ module.exports.register = async (req, res) => {
       return res.status(401).json({ msg: "Email already used", status: false });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({
+    const user = await User.create({
       email,
       username,
       password: hashedPassword,
     });
+    console.log(user);
 
     const token = generateAccessToken({ username });
 
@@ -31,7 +32,7 @@ module.exports.register = async (req, res) => {
       status: true,
       token,
     });
-  } catch (er) {
+  } catch (error) {
     return res.status(500).json({ msg: "error please try later", error });
   }
 };
@@ -40,6 +41,7 @@ module.exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
+    console.log(user);
     if (!user) {
       return res
         .status(401)

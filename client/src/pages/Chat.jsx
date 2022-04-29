@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from "react";
 import io from "socket.io-client"
-import Input from "./Input/Input"
-import UserList from "./UserList/UserList"
-import Messages from "./Messages/Messages"
-import "./Chat.css"
+import Input from "../components/Input"
+import UserList from "../components/UserList"
+import Messages from "../components/Messages"
 import {useLocation} from "react-router-dom"
 import axios from "axios";
-import {getRoomNameRoute, END_POINT} from "../../api/api.path"
+import {getRoomNameRoute, END_POINT} from "../api/api.path"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import jwt_decode from "jwt-decode"
 
 let socket;
 
@@ -27,7 +27,8 @@ const Chat = () => {
     const [messages, setMessages] = useState([])
 
     const roomId = location.pathname.replace('/chat/', '')
-    const userName = JSON.parse(localStorage.getItem('auth-user'))
+    const local = JSON.parse(localStorage.getItem("token"))
+    const decodedToken = jwt_decode(local.token)
     
     /*////////////////// Get room name ///////////////////*/ 
     useEffect(() => {
@@ -46,7 +47,7 @@ const Chat = () => {
 
     useEffect(() => {
       socket = io(END_POINT)  
-        socket.emit('user__join', {room: roomId, name: userName.username}, (error) => {
+        socket.emit('user__join', {room: roomId, name: decodedToken.username}, (error) => {
             console.log(error);
         })
      
@@ -100,22 +101,20 @@ const Chat = () => {
   return (
     <>
    
-      <div className="chat__outer-container">
-      <h1>{currentRoomName}</h1>
-        <div className="chat__inset-container">
-            <div className="chat__container">
-                <div className="chat__container-user__list">
+      <div className="bg-gradient-to-l from-black to-blue-600 w-screen h-screen flex flex-col justify-center items-center">
+      <h1 className="text-white text-3xl sm:text-5xl md:text-7xl lg:text-8xl mb-10 text-center">{currentRoomName}</h1>
+        <div className="w-screen h-screen sm:w-10/12 sm:h-[500px] flex">
+                <div className="overflow-y-scroll h-full w-3/12">
                   <UserList users={usersInRoom} />
                 </div>
-                <div className="chat__container-main__container">
-                    <div className="chat__container-messages">
+                <div className=" h-full w-11/12 ">
+                    <div className="overflow-y-scroll h-[500px] bg-gray-900 pb-10">
                         <Messages messages={messages} />
                     </div>
-                    <div className="chat__container-messages__input">
+                    <div className="-translate-y-full">
                         <Input messageInput={sendMessage} />
                     </div>
                 </div>
-            </div>
         </div>
       </div>
         <ToastContainer />

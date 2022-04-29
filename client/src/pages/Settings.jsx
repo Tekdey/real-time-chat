@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import "./Settings.css"
-import { Link, useNavigate } from "react-router-dom";
+import React, {  useState } from "react";
+import { Link } from "react-router-dom";
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
-import {updateAccountRoute, updatePasswordRoute} from "../../api/api.path"
+import {updateAccountRoute, updatePasswordRoute} from "../api/api.path"
 import axios from "axios"
 
 
@@ -111,83 +110,85 @@ const Settings =  () => {
   }
 
   return (
-    <div className="auth__form_settings-container">
-    <form onSubmit={handleSubmit}>
-    <h1>Settings 🔧</h1>
+    <div className="flex flex-col justify-center items-center text-white">
+    <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center bg-blue-800 rounded-lg shadow-xl p-5">
+    <h1 className="p-5 text-3xl font-bold">Settings 🔧</h1>
     {changePassword && (
       <span 
-      className="auth__form_settings-span_back"
+      className="self-start p-2"
       onClick={() => setChangePassword((_) => !_)}
       > 	&larr; Go back back</span>
     )}
 
     {!changePassword ? (<>
-        <div className="auth__form_settings-container_fields">
-            <label htmlFor="username">Username</label>
+          <div className="setting-input-container">
+            <label htmlFor="username" className="font-semibold">Username</label>
                 <input type="text" 
+                className="setting-input"
                 name="username" 
                 placeholder={local_values.username}
                 onChange={handleChange} 
                 required />
           </div>
 
-        <div className="auth__form_settings-container_fields">
-            <label htmlFor="email">Email</label>
+          <div className="setting-input-container">
+
+            <label htmlFor="email" className="font-semibold">Email</label>
             <input type="email" 
+            className="setting-input"
             name="email" 
             placeholder={local_values.email} 
             onChange={handleChange} 
             required />
-        </div> 
+          </div>
+
         <button 
-          className="auth__form_settings-button_password"
+          className="bg-red-800 p-2 rounded-md mt-5"
           onClick={() => setChangePassword((_) => !_)}>
           Change password
          </button>
 
         </>):(<>
-        
-        <div className="auth__form_settings-container_fields">
-            <label htmlFor="password">Current password</label>
-            <input type="password" 
-            name="password" 
-            placeholder="Current Password" 
-            onChange={handleChange} 
-            required />
-        </div>
-        <div className="auth__form_settings-container_fields">
-            <label htmlFor="confirmPassword">Confirm your current password</label>
-            <input type="password" 
-            name="confirmPassword" 
-            placeholder="Confirm your current password" 
-            onChange={handleChange} 
-            required />
-        </div>
-        <div className="auth__form_settings-container_fields">
-            <label htmlFor="newPassword">New password</label>
-            <input type="password" 
-            name="newPassword" 
-            placeholder="New Password" 
-            onChange={handleChange} 
-            required />
-        </div>
+          <div className="setting-input-container">
+              <label htmlFor="password">Current password</label>
+              <input type="password" 
+              className="setting-input"
+              name="password" 
+              placeholder="Current Password" 
+              onChange={handleChange} 
+              required />
+          </div>
+          <div className="setting-input-container">
+              <label htmlFor="confirmPassword">Confirm your current password</label>
+              <input type="password" 
+              className="setting-input"
+              name="confirmPassword" 
+              placeholder="Confirm your current password" 
+              onChange={handleChange} 
+              required />
+          </div>
+            <div className="setting-input-container">
+              <label htmlFor="newPassword">New password</label>
+              <input type="password" 
+              className="setting-input"
+              name="newPassword" 
+              placeholder="New Password" 
+              onChange={handleChange} 
+              required />
+          </div>
         </> )}
        
-        <div className="auth__form_settings-container_fields-content_button">
-            <button>
+            <button className="bg-green-800 p-2 rounded-md mt-2">
                 Update
             </button>
-        </div>
-        <div className="auth__form_settings-container_fields-content_sign">
-        <p>
+        <p className="p-2">
             Want to delete your account ?
-            <span>
+            <span className="text-red-600 drop-shadow-lg">
               <Link to="/account/delete">
                  &nbsp;Delete&nbsp; 
                </Link>
             </span>
          </p>
-        </div>
     </form>
     <ToastContainer />
 </div>

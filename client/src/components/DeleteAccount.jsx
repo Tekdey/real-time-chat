@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./DeleteAccount.css"
-import {deleteAccountRoute} from "../../../api/api.path"
+import {deleteAccountRoute} from "../api/api.path"
 import axios from 'axios'
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
@@ -59,43 +58,43 @@ const DeleteAccount = () => {
 
 
   return (
-      <div className="delete__account-container">
+      <div className="bg-blue-800 rounded-lg p-5 flex justify-center items-center flex-col text-white">
           {
               confirmation && (
                 <span 
-                className="delete__account-container-span_back"
+                className="self-start"
                 > <Link to="/account"> &larr; Go back back</Link></span>
               )
           }
-          <div className="delete__account-span">
-              <span>
+          <div className="">
+              <span className="text-2xl">
                   {confirmation ? "Confirm your password" : 
                     "Do you want delete your account ?"
                   }
               </span>
           </div>
-          <div className="delete__container-confirmation">
+          <div className="flex justify-around w-full mt-5">
               {
                   !confirmation ?(
               <>
-                <button className="YES"
+                <button className="bg-green-800 px-5 py-3 rounded-md"
                     onClick={() => setConfirmation((_) => !_)}
                 >YES</button>
                 <Link to="/account">
-                    <button className="NO">NO</button>
+                    <button className="bg-red-800 px-5 py-3 rounded-md">NO</button>
                 </Link>
               </>
               ): 
               (
-                  <div className="delete__container-confirmation-input_confirm_password-Container">
+                  <div className="flex justify-center flex-col items-center w-full">
                         <input 
                         type="password"
                         placeholder="Your password"
-                        className="delete__container-confirmation-input_confirm_password"
+                        className="setting-input"
                         onChange={handleChange}
                         />
                         <button 
-                        className="delete__container-confirmation-input_confirm_password-btn"
+                        className="bg-red-800 px-5 py-2 rounded-md mt-2"
                         onClick={deleteAccount}
                         >DELETE</button>
                   </div>

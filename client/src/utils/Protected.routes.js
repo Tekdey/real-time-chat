@@ -3,7 +3,7 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 
 const useAuth = () => {
   const user = { loggedIn: false };
-  if (localStorage.getItem("auth-user")) {
+  if (localStorage.getItem("token")) {
     user.loggedIn = true;
   }
   return user && user.loggedIn;

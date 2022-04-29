@@ -1,15 +1,12 @@
 import React from "react";
-import Navbar from "./Navbar/Navbar"
-import "./Home.css"
+import Navbar from "../components/Navbar"
 import { Outlet} from "react-router-dom";
 
 const Home = () => {
   return (
       <>
         <Navbar />
-        <div className="home__container">
-            <Outlet />
-        </div>
+        <Outlet />
       </>
   )
 };

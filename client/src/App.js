@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Login from "./components/Auth/Login/Login";
-import Register from "./components/Auth/Register/Register";
-import Chat from "./components/Chat/Chat";
-import Room from "./components/Room/Room";
+import Auth from "./pages/Auth";
+import Chat from "./pages/Chat";
+import Room from "./pages/Room";
 import Redirect from "./components/Redirect";
 import axios from "axios";
 import { getAllRoomRoute } from "./api/api.path";
 import Error from "./Error";
 import { useSelector } from "react-redux";
 import RoutesProtection from "./utils/Protected.routes.js";
-import Home from "./components/Home/Home";
-import Content from "./components/Home/Content/Content";
-import Settings from "./components/Settings/Settings";
-import DeleteAccount from "./components/Settings/DeleteAccount/DeleteAccount";
+import Home from "./pages/Home";
+import Content from "./components/Content";
+import Settings from "./pages/Settings";
+import DeleteAccount from "./components/DeleteAccount";
 
 const App = () => {
   const [room, setRoom] = useState([]);
@@ -33,8 +31,7 @@ const App = () => {
         <Route path="/" element={<Home />}>
           {/*////////////////// Sign ///////////////////*/}
           <Route path="/" element={<Content />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/auth" element={<Auth />} />
           {/*////////////////// Protected Routes ///////////////////*/}
           <Route element={<RoutesProtection />}>
             <Route path="/room" element={<Room />} />
